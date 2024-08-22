@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+tmux split-window -h "make templ"
+tmux select-layout even-horizontal
+air

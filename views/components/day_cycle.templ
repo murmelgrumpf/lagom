@@ -1,0 +1,30 @@
+package components
+
+var dayCycleHandle = templ.NewOnceHandle()
+
+templ DayCycle(time int) {
+	<div class="day-cycle">
+		<div class="color"></div>
+	</div>
+	@dayCycleHandle.Once() {
+		@dayCycleStyle()
+	}
+}
+
+templ dayCycleStyle() {
+	<style>
+    .day-cycle {
+        width: 20%;
+        height: 25%;
+        overflow: clip;
+
+        .color {
+            width: 100%;
+            height: 100%;
+            /*background: rgb(19, 189, 246);
+        background: linear-gradient(90deg, rgba(19, 189, 246, 1) 35%, rgba(191, 106, 18, 1) 50%, rgba(4, 14, 42, 1) 65%);*/
+            background-image: conic-gradient(rgba(19, 189, 246, 1) 55deg, rgba(191, 106, 18, 1) 90deg, rgba(4, 14, 42, 1) 125deg, rgba(4, 14, 42, 1) 235deg, rgba(191, 106, 18, 1) 270deg, rgba(19, 189, 246, 1) 305deg);
+        }
+    }
+</style>
+}

@@ -1,0 +1,36 @@
+@import url("./styles/emojis.css");
+@import url("./styles/border.css");
+@import url("./styles/scrollbar.css");
+
+:root {
+    --lag-bg: #5A3A31;
+
+    --lag-font-color: #31231E;
+    --lag-font-family: "Tahoma";
+    --lag-font-family-emoji: "OpenMoji";
+    --lag-font-family-serif: sans-serif;
+
+    --lag-panel-primary: #CB9561;
+    --lag-panel-primary-light: #fcc18a;
+    --lag-panel-stroke: #31231E;
+    --lag-panel-secondary: green;
+}
+
+* {
+    font-family: var(--lag-font-family-emoji), var(--lag-font-family), var(--lag-font-family-serif);
+    color: var(--lag-font-color);
+}
+
+body {
+    background: var(--lag-bg);
+}
+
+body,
+html {
+    height: 100%;
+    overflow: clip;
+}
+
+button {
+    font-size: inherit;
+}

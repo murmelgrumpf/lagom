@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+source .env
+
+sqlite3 -csv "$DB_LOCATION" ".import ./public/emojis/openmoji.csv emojis"

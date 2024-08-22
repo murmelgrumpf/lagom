@@ -1,0 +1,29 @@
+package home
+
+import (
+	"lagom/views/components"
+	"lagom/views/layouts"
+)
+
+var indexHandle = templ.NewOnceHandle()
+
+templ Index() {
+	@layouts.Base() {
+		<div class="border-1 home">
+			@components.EmojiSelect("emojihandlerMain", "t-rex")
+		</div>
+		@components.DayCycle(20)
+		@indexHandle.Once() {
+			@indexStyle()
+		}
+	}
+}
+
+templ indexStyle() {
+	<style>
+    .home {
+        padding: 3em;
+        background: var(--lag-panel-primary);
+    }
+</style>
+}

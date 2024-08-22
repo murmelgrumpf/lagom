@@ -1,0 +1,93 @@
+package components
+
+import (
+	"fmt"
+	"lagom/db"
+	"strings"
+)
+
+type emojiData struct {
+	Emojis []db.Emojis
+}
+
+func getShowEmoji(emoji db.Emojis) string {
+	return strings.Replace(strings.ToLower(emoji.Group)+
+		strings.ToLower(emoji.Annotation)+
+		strings.ToLower(emoji.Subgroups)+
+		strings.ToLower(emoji.Tags)+
+		strings.ToLower(emoji.OpenmojiTags), "\"", "'", -1)
+}
+
+var emojiSelectHandle = templ.NewOnceHandle()
+
+templ EmojiSelect(id string, placeholder string) {
+	<div class="emoji-select" x-data={ fmt.Sprintf("{ %s_term: '' }", id) }>
+		<button @click={ fmt.Sprintf("toggleModal('%s')", id+"Modal") }>
+			show dialog
+		</button>
+		@Modal(id + "Modal") {
+			<input x-model={ id + "_term" } type="text" placeholder={ placeholder } class="search-input border-1-thin"/>
+			<div tabindex="-1" class="emojis">
+				for _, emoji := range *db.SearchEmojis() {
+					<button
+						title={ emoji.Annotation }
+						x-show={ fmt.Sprintf("showEmoji(\"%s\", %s_term)", getShowEmoji(emoji), id) }
+					>
+						{ emoji.Emoji }
+					</button>
+				}
+			</div>
+		}
+	</div>
+	@emojiSelectHandle.Once() {
+		@emojiSelectScript()
+		@emojiSelectStyle()
+	}
+}
+
+templ emojiSelectScript() {
+	<script>
+    function showEmoji(emojiSearch, term) {
+        return emojiSearch.indexOf(term.toLowerCase()) !== -1;
+    }
+</script>
+}
+
+templ emojiSelectStyle() {
+	<style type="text/css">
+    .emoji-select {
+        .search-input {
+            font-size: 1.4rem;
+            position: absolute;
+            top: 0.5rem;
+            margin-bottom: 2px;
+            align-self: first baseline;
+            left: 0;
+            right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            width: 25rem;
+            background: var(--lag-panel-primary-light)
+        }
+
+        .emojis {
+            padding-top: 2rem;
+            height: 95%;
+            font-size: 2rem;
+            overflow-y: scroll;
+
+            button {
+                background: transparent;
+                border: none;
+            }
+
+            button:hover {
+                position: relative;
+                bottom: 0.05em;
+                right: 0.05em;
+                text-shadow: 0.05em 0.05em gray;
+            }
+        }
+    }
+</style>
+}

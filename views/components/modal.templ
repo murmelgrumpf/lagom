@@ -1,0 +1,27 @@
+package components
+
+var modalHandle = templ.NewOnceHandle()
+
+templ Modal(id string) {
+	<dialog id={ id } class="modal border-2" @keyup.escape="close">
+		{ children... }
+	</dialog>
+	@modalHandle.Once() {
+		@modalStyle()
+	}
+}
+
+templ modalStyle() {
+	<style type="text/css">
+    .modal {
+        height: 80%;
+        width: 60%;
+        text-align: center;
+        background: var(--lag-panel-primary);
+
+        ::backdrop {
+            background: rgb(0 0 0 / 55%);
+        }
+    }
+</style>
+}
